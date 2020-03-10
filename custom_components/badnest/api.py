@@ -304,27 +304,6 @@ class NestAPI():
                         sensor_data['current_temperature']
                     self.device_data[sn]['battery_level'] = \
                         sensor_data['battery_level']
-
-            # Cameras
-            for camera in self.cameras:
-                r = self._session.get(
-                    f"{API_URL}/dropcam/api/cameras/{camera}"
-                )
-                sensor_data = r.json()[0]
-                self.device_data[camera]['name'] = \
-                    sensor_data["name"]
-                self.device_data[camera]['is_online'] = \
-                    sensor_data["is_online"]
-                self.device_data[camera]['is_streaming'] = \
-                    sensor_data["is_streaming"]
-                self.device_data[camera]['battery_voltage'] = \
-                    sensor_data["rq_battery_battery_volt"]
-                self.device_data[camera]['ac_voltage'] = \
-                    sensor_data["rq_battery_vbridge_volt"]
-                self.device_data[camera]['location'] = \
-                    sensor_data["location"]
-                self.device_data[camera]['data_tier'] = \
-                    sensor_data["properties"]["streaming.data-usage-tier"]
         except requests.exceptions.RequestException as e:
             _LOGGER.error(e)
             _LOGGER.error('Failed to update, trying again')
