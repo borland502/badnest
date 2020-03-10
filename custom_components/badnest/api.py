@@ -115,7 +115,10 @@ class NestAPI():
 
             for camera in r.json()["items"]:
                 cameras.append(camera['uuid'])
-                self.device_data[camera['uuid']] = {}
+                camera['battery_voltage'] = camera["rq_battery_battery_volt"]
+                camera['ac_voltage'] = camera["rq_battery_vbridge_volt"]
+                camera['data_tier'] = camera["properties"]["streaming.data-usage-tier"]
+                self.device_data[camera['uuid']] = camera
 
             return cameras
         except requests.exceptions.RequestException as e:
